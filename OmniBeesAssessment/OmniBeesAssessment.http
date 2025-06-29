@@ -1,0 +1,6 @@
+@OmniBeesAssessment_HostAddress = http://localhost:5267
+
+GET {{OmniBeesAssessment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
