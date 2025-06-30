@@ -1,4 +1,6 @@
-﻿namespace OmniBeesAssessment.Data
+﻿using OmniBeesAssessment.Model;
+
+namespace OmniBeesAssessment.Data
 {
     public static class Validator
     {
@@ -11,6 +13,16 @@
         {
             int agravo = Access.Agravo(age);
             return agravo;
+        }
+        public static User ValidateUser(UserDto p_user)
+        {
+            User user = Access.ValidateUser(p_user);
+            return user;
+        }
+        public static User ValidateUser(int UserId)
+        {
+            User user = Access.ValidateUser(UserId);
+            return user;
         }
     }
 }

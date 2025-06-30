@@ -1,12 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OmniBeesAssessment.Model;
+using OmniBeesAssessment.Services;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace OmniBeesAssessment.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CotacaoController : ControllerBase
+public class CotacaoController(IAuthService authService) : ControllerBase
 {
+    [Authorize]
     [Route("Listar")]
     [HttpPost]
     public IActionResult Listar(ListarCotacao cotacao)
@@ -19,6 +23,15 @@ public class CotacaoController : ControllerBase
         else
         {
             secret = Request.Headers["Secret"].ToString();
+            var tokenString = Request.Headers["Authorization"].ToString();
+            var jwtEncodedString = tokenString.Substring(7);
+            var token = new JwtSecurityToken(jwtEncodedString);
+            foreach (var item in token.Claims)
+            {
+                Console.WriteLine(item.Type + "\\" + item.Value);
+            }
+            
+
             var parceiroId = Data.Validator.ValidateSecret(secret);
             if (parceiroId > 0)
             {
@@ -76,5 +89,15 @@ public class CotacaoController : ControllerBase
         }
 
         return Ok();
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult<TokenResponseDto>> Login(UserDto request)
+    {
+        var result = await authService.LoginAsync(request);
+        if (result is null)
+            return BadRequest("Invalid username or password.");
+
+        return Ok(result);
     }
 }
