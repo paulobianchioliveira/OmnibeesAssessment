@@ -1,6 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using OmniBeesAssessment.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
